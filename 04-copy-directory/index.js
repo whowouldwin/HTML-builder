@@ -19,13 +19,16 @@ async function copyFolder(src, dest) {
   }
 }
 
-(async function main() {
-  const srcFolder = path.join(__dirname, 'files');
-  const destFolder = path.join(__dirname, 'files-copy');
-  try {
-    await fs.rm(destFolder, { recursive: true, force: true });
-    await copyFolder(srcFolder, destFolder);
-  } catch (e) {
-    console.error(`Error copying folder: ${e.message}`);
-  }
-})();
+if (require.main === module) {
+  (async () => {
+    const srcFolder = path.join(__dirname, 'files');
+    const destFolder = path.join(__dirname, 'files-copy');
+    try {
+      await fs.rm(destFolder, { recursive: true, force: true });
+      await copyFolder(srcFolder, destFolder);
+    } catch (e) {
+      console.error(`Error copying folder: ${e.message}`);
+    }
+  })();
+}
+module.exports = { copyFolder };
